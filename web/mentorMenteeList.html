@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mentor-Mentee List - MentoPro</title>
+        <style>
+            body {
+                background-color: #E9E3D9;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            .header {
+                background-color: #347474; 
+                color: #FFFFFF; 
+                padding: 15px 40px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .logo {
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+
+            .nav-links {
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-links a, .nav-links input[type="text"] {
+                color: #FFFFFF; 
+                text-decoration: none;
+                margin-left: 25px;
+                font-size: 1em;
+                padding: 5px 0;
+                transition: color 0.2s;
+            }
+
+            .nav-links a:hover {
+                color: #E4AF69; 
+            }
+
+            .nav-links input[type="text"] {
+                border: 1px solid #629999; 
+                background-color: transparent;
+                padding: 5px 10px;
+                border-radius: 4px;
+                width: 150px;
+                box-sizing: border-box;
+            }
+
+            .nav-links input[type="text"]::placeholder {
+                color: #EAEAEA;
+                opacity: 0.7;
+            }
+            .profile-menu {
+                position: relative;
+            }
+
+            .profile-picture {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: #FFFFFF; 
+                border: 2px solid #FFFFFF; 
+                display: block; 
+                margin-left: 25px;
+            }
+            
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                top: 50px; 
+                right: 0;
+                background-color: #FFFFFF;
+                border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                min-width: 120px;
+                z-index: 10;
+                padding: 10px 0;
+            }
+
+            .dropdown-content a {
+                color: #333333;
+                padding: 10px 15px;
+                text-decoration: none;
+                display: block;
+                font-size: 0.9em;
+                transition: background-color 0.1s;
+            }
+
+            .dropdown-content a.logout {
+                color: #C32F27; 
+            }
+
+            .dropdown-content a:hover {
+                background-color: #F0F0F0;
+            }
+
+            .logout-link {
+                margin-left: 15px !important; 
+            }
+
+            .nav-links a[href="mentorMenteeList.html"] {
+                font-weight: bold;
+                text-decoration: underline;
+                color: #E4AF69; 
+            }
+
+            .main-container {
+                flex-grow: 1;
+                padding: 40px;
+                max-width: 1000px;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            .page-title {
+                color: #347474;
+                font-size: 2em;
+                font-weight: bold;
+                margin-bottom: 30px;
+            }
+
+            .section-header {
+                border-left: 5px solid #E4AF69; 
+                padding-left: 15px;
+                margin-top: 30px;
+                margin-bottom: 15px;
+            }
+
+            .section-header h3 {
+                color: #333333;
+                font-size: 1.5em;
+                margin: 0;
+            }
+
+            .section-header p {
+                color: #777;
+                margin-top: 5px;
+                font-size: 0.9em;
+            }
+
+            .card-link {
+                text-decoration: none; 
+                color: inherit; 
+                display: block; 
+                margin-bottom: 15px; 
+            }
+
+            .mentor-card, .mentee-card {
+                background-color: #FFFFFF;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                transition: background-color 0.2s;
+            }
+
+            .card-link:hover .mentor-card, 
+            .card-link:hover .mentee-card {
+                background-color: #f7f7f7;
+            }
+
+            .info-container {
+                display: flex;
+                align-items: center;
+                width: 100%;
+            }
+
+            .profile-thumb {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                margin-right: 15px;
+                border: 1px solid #ddd;
+
+                background-image: url('https://placehold.co/45x45/347474/FFFFFF?text=P');
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .text-details h4 {
+                margin: 0;
+                font-size: 1.1em;
+                color: #333333;
+            }
+
+            .text-details p {
+                margin: 2px 0 0 0;
+                font-size: 0.85em;
+                color: #777;
+            }
+
+        </style>
+    </head>
+    <body>
+        <header class="header">
+            <div class="logo">MentoPro</div>
+            <nav class="nav-links">
+                <a href="homePage.html">Home</a>
+                <input type="text" placeholder="Search..." aria-label="Search">
+                <a href="requestPage.html">Request List</a>
+                <a href="mentorMenteeList.html">Mentor-Mentee List</a>
+            </nav>
+
+            <div class="profile-menu">
+                <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                     alt="User Profile" 
+                     class="profile-picture" 
+                     onclick="toggleDropdown()">
+
+                <div id="accountDropdown" class="dropdown-content">
+                    <a href="profilePage.html">Profile</a>
+                    <a href="index.html" class="logout">Logout</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-container">
+            <h1 class="page-title">My Mentorship Network</h1>
+
+            <div class="section-header">
+                <h3>My Mentors</h3>
+                <p>These are the individuals currently guiding you. Click on a card to view their profile.</p>
+            </div>
+
+            <div id="mentor-list">
+
+                <a href="mentorProfilePage.html" class="card-link">
+                    <div class="mentor-card">
+                        <div class="info-container">
+                            <div class="profile-thumb"></div>
+                            <div class="text-details">
+                                <h4>Alif Anuar</h4>
+                                <p>CSC508</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="mentorProfilePage.html" class="card-link">
+                    <div class="mentor-card">
+                        <div class="info-container">
+                            <div class="profile-thumb"></div>
+                            <div class="text-details">
+                                <h4>Maria Halim</h4>
+                                <p>CSC584</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="mentorProfilePage.html" class="card-link">
+                    <div class="mentor-card">
+                        <div class="info-container">
+                            <div class="profile-thumb"></div>
+                            <div class="text-details">
+                                <h4>Mat Hali Jasuli</h4>
+                                <p>CTU554</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="section-header">
+                <h3>My Mentees</h3>
+                <p>These are the students you are currently mentoring. Click on a card to view their profile.</p>
+            </div>
+
+            <div id="mentee-list">
+
+                <a href="mentorProfilePage.html" class="card-link">
+                    <div class="mentee-card">
+                        <div class="info-container">
+                            <div class="profile-thumb"></div>
+                            <div class="text-details">
+                                <h4>Aniq Decaprio</h4>
+                                <p>CSC541</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="mentorProfilePage.html" class="card-link">
+                    <div class="mentee-card">
+                        <div class="info-container">
+                            <div class="profile-thumb"></div>
+                            <div class="text-details">
+                                <h4>Anas Suhaimi</h4>
+                                <p>TJC401</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="mentorProfilePage.html" class="card-link">
+                    <div class="mentee-card">
+                        <div class="info-container">
+                            <div class="profile-thumb"></div>
+                            <div class="text-details">
+                                <h4>Mat Wea</h4>
+                                <p>CSC555</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="mentorProfilePage.html" class="card-link">
+                    <div class="mentee-card">
+                        <div class="info-container">
+                            <div class="profile-thumb"></div>
+                            <div class="text-details">
+                                <h4>Kaneki Niel</h4>
+                                <p>LCC500</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </main>
+        <script>
+            function toggleDropdown() {
+                const dropdown = document.getElementById('accountDropdown');
+                if (dropdown.style.display === 'block') {
+                    dropdown.style.display = 'none';
+                } else {
+                    dropdown.style.display = 'block';
+                }
+            }
+
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('accountDropdown');
+                const profilePicture = document.querySelector('.profile-picture');
+
+                if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        </script>
+    </body>
+</html>

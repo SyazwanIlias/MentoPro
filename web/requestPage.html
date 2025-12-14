@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Request List - MentoPro</title>
+        <style>
+            body {
+                background-color: #E9E3D9; 
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            .header {
+                background-color: #347474; 
+                color: #FFFFFF; 
+                padding: 15px 40px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .logo {
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+
+            .nav-links {
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-links a, .nav-links input[type="text"] {
+                color: #FFFFFF; 
+                text-decoration: none;
+                margin-left: 25px;
+                font-size: 1em;
+                padding: 5px 0;
+                transition: color 0.2s;
+            }
+
+            .nav-links a:hover {
+                color: #E4AF69; 
+            }
+
+            .nav-links input[type="text"] {
+                border: 1px solid #629999; 
+                background-color: transparent;
+                padding: 5px 10px;
+                border-radius: 4px;
+                width: 150px;
+                box-sizing: border-box;
+            }
+            
+            .profile-menu {
+                position: relative;
+            }
+
+            .nav-links input[type="text"]::placeholder {
+                color: #EAEAEA;
+                opacity: 0.7;
+            }
+
+            .profile-picture {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: #FFFFFF; 
+                border: 2px solid #FFFFFF; 
+                display: block; 
+                margin-left: 25px;
+            }
+            
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                top: 50px; 
+                right: 0;
+                background-color: #FFFFFF;
+                border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                min-width: 120px;
+                z-index: 10;
+                padding: 10px 0;
+            }
+
+            .dropdown-content a {
+                color: #333333;
+                padding: 10px 15px;
+                text-decoration: none;
+                display: block;
+                font-size: 0.9em;
+                transition: background-color 0.1s;
+            }
+
+            .dropdown-content a.logout {
+                color: #C32F27; 
+            }
+
+            .dropdown-content a:hover {
+                background-color: #F0F0F0;
+            }
+
+            .logout-link {
+                margin-left: 15px !important; 
+            }
+
+            .main-container {
+                flex-grow: 1;
+                padding: 40px;
+                max-width: 1000px;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            .page-title {
+                color: #347474;
+                font-size: 2em;
+                font-weight: bold;
+                margin-bottom: 30px;
+            }
+
+            .section-header {
+                border-left: 5px solid #E4AF69;
+                padding-left: 15px;
+                margin-top: 30px;
+                margin-bottom: 15px;
+            }
+
+            .section-header h3 {
+                color: #333333;
+                font-size: 1.5em;
+                margin: 0;
+            }
+
+            .section-header p {
+                color: #777;
+                margin-top: 5px;
+                font-size: 0.9em;
+            }
+
+            .request-card {
+                background-color: #FFFFFF;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                margin-bottom: 15px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .requester-info {
+                display: flex;
+                align-items: center;
+            }
+
+            .requester-image {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                object-fit: cover; 
+                margin-right: 15px;
+                border: 1px solid #ddd;
+            }
+
+            .text-details h4 {
+                margin: 0;
+                font-size: 1.1em;
+                color: #333333;
+            }
+
+            .text-details p {
+                margin: 2px 0 0 0;
+                font-size: 0.85em;
+                color: #777;
+            }
+
+            .actions-status {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .status-pill {
+                padding: 5px 12px;
+                border-radius: 20px;
+                font-size: 0.8em;
+                font-weight: bold;
+            }
+            .accepted { 
+                background-color: #e5f5e5; 
+                color: #388e3c; 
+                border: 1px solid #388e3c;
+            }
+            .rejected { 
+                background-color: #fcebeb; 
+                color: #c0392b; 
+                border: 1px solid #c0392b;
+            }
+            .pending { 
+                background-color: #fff3e0; 
+                color: #f39c12; 
+                border: 1px solid #f39c12;
+            }
+
+            .action-button {
+                padding: 8px 15px;
+                border-radius: 4px;
+                font-weight: bold;
+                cursor: pointer;
+                border: none;
+                transition: background-color 0.2s, opacity 0.2s;
+            }
+
+            .action-button.accept {
+                background-color: #388e3c; 
+                color: #FFFFFF;
+            }
+
+            .action-button.reject {
+                background-color: #c0392b;
+                color: #FFFFFF;
+            }
+
+            .action-button:hover:not(:disabled) {
+                opacity: 0.9;
+            }
+
+            .action-button[disabled] {
+                cursor: not-allowed;
+                opacity: 0.6;
+            }
+        </style>
+    </head>
+    <body>
+
+        <header class="header">
+                <div class="logo">MentoPro</div>
+                <nav class="nav-links">
+                    <a href="homePage.html">Home</a>
+                    <input type="text" placeholder="Search..." aria-label="Search">
+                    <a href="requestPage.html">Request List</a>
+                    <a href="mentorMenteeList.html">Mentor-Mentee List</a>
+                </nav>
+
+                <div class="profile-menu">
+                    <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                         alt="User Profile" 
+                         class="profile-picture" 
+                         onclick="toggleDropdown()">
+
+                    <div id="accountDropdown" class="dropdown-content">
+                        <a href="profilePage.html">Profile</a>
+                        <a href="index.html" class="logout">Logout</a>
+                    </div>
+                </div>
+            </header>
+
+        <main class="main-container">
+
+            <h1 class="page-title">Mentorship Requests Management</h1>
+
+            <div class="section-header">
+                <h3>Requests I Have Sent</h3>
+                <p>Track the status of the requests you have sent to potential mentors.</p>
+            </div>
+
+            <div id="sent-requests">
+                <div class="request-card">
+                    <div class="requester-info">
+                        <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                             class="requester-image"/>
+                        <div class="text-details">
+                            <h4>Alex Johnson (CS222-4)</h4>
+                        </div>
+                    </div>
+                    <div class="actions-status">
+                        <span class="status-pill accepted">Accepted</span>
+                    </div>
+                </div>
+
+                <div class="request-card">
+                    <div class="requester-info">
+                        <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                             class="requester-image"/>
+                        <div class="text-details">
+                            <h4>Zoe Adams (HI500-4)</h4>
+                        </div>
+                    </div>
+                    <div class="actions-status">
+                        <span class="status-pill rejected">Rejected</span>
+                    </div>
+                </div>
+
+                <div class="request-card">
+                    <div class="requester-info">
+                        <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                             class="requester-image"/>
+                        <div class="text-details">
+                            <h4>Mark Green (MA101-4)</h4>
+                        </div>
+                    </div>
+                    <div class="actions-status">
+                        <span class="status-pill pending">Pending</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h3>Requests for My Mentorship</h3>
+                <p>Review new requests from mentees and decide to accept or reject them.</p>
+            </div>
+
+            <div id="incoming-requests">
+                <div class="request-card" id="request-1">
+                    <div class="requester-info">
+                        <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                             class="requester-image"/>
+                        <div class="text-details">
+                            <h4>Jane Doe (MG405-4) <span style="font-weight: normal; margin-left: 10px;">CGPA: 3.20</span></h4>
+                        </div>
+                    </div>
+                    <div class="actions-status">
+                        <button class="action-button accept">Accept</button>
+                        <button class="action-button reject">Reject</button>
+                    </div>
+                </div>
+
+                <div class="request-card" id="request-2">
+                    <div class="requester-info">
+                        <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                             class="requester-image"/>
+                        <div class="text-details">
+                            <h4>Sam Fisher (TR321-3) <span style="font-weight: normal; margin-left: 10px;">CGPA: 3.85</span></h4>
+                        </div>
+                    </div>
+                    <div class="actions-status">
+                        <button class="action-button accept">Accept</button>
+                        <button class="action-button reject">Reject</button>
+                    </div>
+                </div>
+
+                <div class="request-card" id="request-3">
+                    <div class="requester-info">
+                        <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                             class="requester-image"/>
+                        <div class="text-details">
+                            <h4>Tanya Ray (CS222-4) <span style="font-weight: normal; margin-left: 10px;">CGPA: 3.10</span></h4>
+                        </div>
+                    </div>
+                    <div class="actions-status">
+                        <button class="action-button accept">Accept</button>
+                        <button class="action-button reject">Reject</button>
+                    </div>
+                </div>
+
+                <div class="request-card" id="request-4">
+                    <div class="requester-info">
+                        <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                             class="requester-image"/>
+                        <div class="text-details">
+                            <h4>Leo White (PR444-4) <span style="font-weight: normal; margin-left: 10px;">CGPA: 3.55</span></h4>
+                        </div>
+                    </div>
+                    <div class="actions-status">
+                        <button class="action-button accept">Accept</button>
+                        <button class="action-button reject">Reject</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <script>
+            function toggleDropdown() {
+                const dropdown = document.getElementById('accountDropdown');
+                if (dropdown.style.display === 'block') {
+                    dropdown.style.display = 'none';
+                } else {
+                    dropdown.style.display = 'block';
+                }
+            }
+
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('accountDropdown');
+                const profilePicture = document.querySelector('.profile-picture');
+
+                if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        </script>
+
+    </body>
+</html>

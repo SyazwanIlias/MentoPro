@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Your Profile - MentoPro</title>
+        <style>
+            body {
+                background-color: #E9E3D9;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .header {
+                background-color: #347474;
+                color: #FFFFFF; 
+                padding: 15px 40px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                box-sizing: border-box;
+            }
+
+            .logo {
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+
+            .nav-links {
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-links a, .nav-links input[type="text"] {
+                color: #FFFFFF; 
+                text-decoration: none;
+                margin-left: 25px;
+                font-size: 1em;
+                padding: 5px 0;
+                transition: color 0.2s;
+            }
+
+            .nav-links a:hover {
+                color: #E4AF69; 
+            }
+
+            .nav-links input[type="text"] {
+                border: 1px solid #629999; 
+                background-color: transparent;
+                padding: 5px 10px;
+                border-radius: 4px;
+                width: 150px;
+                box-sizing: border-box;
+            }
+
+            .nav-links input[type="text"]::placeholder {
+                color: #EAEAEA;
+                opacity: 0.7;
+            }
+            
+            .profile-picture {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: #FFFFFF; 
+                border: 2px solid #FFFFFF; 
+                display: block; 
+                margin-left: 25px;
+            }
+            
+            .profile-menu {
+                position: relative;
+            }
+            
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                top: 50px; 
+                right: 0;
+                background-color: #FFFFFF;
+                border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                min-width: 120px;
+                z-index: 10;
+                padding: 10px 0;
+            }
+
+            .dropdown-content a {
+                color: #333333;
+                padding: 10px 15px;
+                text-decoration: none;
+                display: block;
+                font-size: 0.9em;
+                transition: background-color 0.1s;
+            }
+
+            .dropdown-content a.logout {
+                color: #C32F27; 
+            }
+
+            .dropdown-content a:hover {
+                background-color: #F0F0F0;
+            }
+
+            .profile-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-left: 25px;
+                color: #FFFFFF;
+                font-size: 1.5em;
+                cursor: pointer;
+            }
+
+            .main-container {
+                padding: 40px 20px;
+                width: 100%;
+                max-width: 700px;
+                box-sizing: border-box;
+            }
+
+            .profile-card {
+                background-color: #FFFFFF;
+                border-radius: 12px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                padding: 40px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .page-title {
+                font-size: 2em;
+                color: #333333;
+                margin-bottom: 30px;
+            }
+
+            .large-profile-image {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background-image: url('https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC'); 
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-color: #E4AF69;
+
+                margin-bottom: 10px;
+                border: 3px solid #347474;
+                cursor: pointer;
+                position: relative;
+            }
+
+            .change-image-hint {
+                font-size: 0.8em;
+                color: #777;
+                margin-bottom: 40px;
+            }
+
+            .data-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px 40px;
+                width: 100%;
+            }
+
+            .data-field {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .field-span-2 {
+                grid-column: span 2;
+            }
+
+            .field-label {
+                font-size: 0.9em;
+                color: #555;
+                margin-bottom: 5px;
+            }
+
+            .field-value {
+                background-color: #f5f5f5; 
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 4px;
+                font-size: 1em;
+                color: #333;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .password-value {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .password-value .field-value {
+                 background-color: #f5f5f5; 
+                 border: 1px solid #ddd;
+                 padding: 10px;
+                 border-radius: 4px;
+                 font-size: 1em;
+                 color: #333;
+                 width: 80%; 
+            }
+
+            .password-hint {
+                font-size: 0.75em;
+                color: #999;
+                margin-top: 5px;
+            }
+
+            .bio-section {
+                width: 100%;
+                margin-top: 30px;
+                margin-bottom: 40px;
+            }
+
+            .bio-header {
+                font-size: 0.9em; 
+                color: #555;
+                margin-bottom: 5px;
+            }
+
+            .bio-text-area {
+                background-color: #f5f5f5;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 4px;
+                color: #333;
+                line-height: 1.6;
+                min-height: 100px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .button-group {
+                display: flex;
+                gap: 20px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .update-button, .delete-button {
+                padding: 12px 30px;
+                border: none;
+                border-radius: 6px;
+                font-size: 1.1em;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                flex-grow: 1;
+                max-width: 250px;
+            }
+
+            .update-button {
+                background-color: #A97A9F;
+                color: #FFFFFF;
+            }
+
+            .update-button:hover {
+                background-color: #946890;
+            }
+
+            .delete-button {
+                background-color: #cccccc;
+                color: #666666;
+            }
+
+            .delete-button:hover {
+                background-color: #bbbbbb;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="header">
+                <div class="logo">MentoPro</div>
+                <nav class="nav-links">
+                    <a href="homePage.html">Home</a>
+                    <input type="text" placeholder="Search..." aria-label="Search">
+                    <a href="requestPage.html">Request List</a>
+                    <a href="mentorMenteeList.html">Mentor-Mentee List</a>
+                </nav>
+
+                <div class="profile-menu">
+                    <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                         alt="User Profile" 
+                         class="profile-picture" 
+                         onclick="toggleDropdown()">
+
+                    <div id="accountDropdown" class="dropdown-content">
+                            <a href="profilePage.html">Profile</a>
+                            <a href="index.html" class="logout">Logout</a>
+                    </div>
+                </div>
+            </header>
+        <main class="main-container">
+            <div class="profile-card">
+
+                <h1 class="page-title">Your Profile</h1>
+
+                <div class="large-profile-image"></div>
+                <p class="change-image-hint">Click icon or image to change picture</p>
+
+                <div class="data-grid">
+
+                    <div class="data-field">
+                        <label class="field-label">Full Name</label>
+                        <div class="field-value">User name </div>
+                    </div>
+
+                    <div class="data-field">
+                        <label class="field-label">Password</label>
+                        <div class="password-value">
+                             <div class="field-value">**********</div>
+                             <p class="password-hint">Contact support to change password.</p>
+                        </div>
+                    </div>
+
+                    <div class="data-field">
+                        <label class="field-label">Course Code</label>
+                        <div class="field-value">User Course</div>
+                    </div>
+
+                    <div class="data-field">
+                        <label class="field-label">Current CGPA</label>
+                        <div class="field-value">3.85</div>
+                    </div>
+
+                    <div class="data-field field-span-2">
+                        <label class="field-label">Favourite Subject</label>
+                        <div class="field-value">User Favourite Subject</div>
+                    </div>
+
+                </div>
+
+                <div class="bio-section">
+                    <h2 class="bio-header">A Little Bit About Me</h2>
+                    <div class="bio-text-area">
+                        I am a fourth-year student specializing in Computer Science, focusing on data structures and machine learning.
+                        I enjoy helping junior students understand complex concepts and achieve their academic goals.
+                        My mentorship style is patient and collaborative.
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="update-button" type="button" onclick="console.log('Update Profile button clicked.')">
+                        Update Profile
+                    </button>
+                    <button class="delete-button" type="button" onclick="console.log('Delete Profile button clicked.')">
+                        Delete Profile
+                    </button>
+                </div>
+
+            </div>
+        </main>
+        <script>
+            function toggleDropdown() {
+                const dropdown = document.getElementById('accountDropdown');
+                if (dropdown.style.display === 'block') {
+                    dropdown.style.display = 'none';
+                } else {
+                    dropdown.style.display = 'block';
+                }
+            }
+
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('accountDropdown');
+                const profilePicture = document.querySelector('.profile-picture');
+
+                if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mentor Profile - MentoPro</title>
+        <style>
+            body {
+                background-color: #E9E3D9; 
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center; 
+                min-height: 100vh;
+            }
+            .header {
+                background-color: #347474; 
+                color: #FFFFFF; 
+                padding: 15px 40px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                box-sizing: border-box;
+            }
+
+            .logo {
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+
+            .nav-links {
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-links a, .nav-links input[type="text"] {
+                color: #FFFFFF; 
+                text-decoration: none;
+                margin-left: 25px;
+                font-size: 1em;
+                padding: 5px 0;
+                transition: color 0.2s;
+            }
+
+            .nav-links a:hover {
+                color: #E4AF69; 
+            }
+
+            .nav-links input[type="text"] {
+                border: 1px solid #629999; 
+                background-color: transparent;
+                padding: 5px 10px;
+                border-radius: 4px;
+                width: 150px;
+                box-sizing: border-box;
+            }
+
+            .nav-links input[type="text"]::placeholder {
+                color: #EAEAEA;
+                opacity: 0.7;
+            }
+
+            .profile-picture {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: #FFFFFF; 
+                border: 2px solid #FFFFFF; 
+                display: block; 
+                margin-left: 25px;
+            }
+
+            .nav-links a[href="mentorProfilePage.html"] {
+                font-weight: bold;
+                text-decoration: underline;
+                color: #E4AF69; 
+            }
+            
+            .profile-menu {
+                position: relative;
+            }
+            
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                top: 50px; 
+                right: 0;
+                background-color: #FFFFFF;
+                border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                min-width: 120px;
+                z-index: 10;
+                padding: 10px 0;
+            }
+
+            .dropdown-content a {
+                color: #333333;
+                padding: 10px 15px;
+                text-decoration: none;
+                display: block;
+                font-size: 0.9em;
+                transition: background-color 0.1s;
+            }
+
+            .dropdown-content a.logout {
+                color: #C32F27; 
+            }
+
+            .dropdown-content a:hover {
+                background-color: #F0F0F0;
+            }
+
+            .main-container {
+                padding: 40px 20px;
+                width: 100%;
+                max-width: 550px; 
+                box-sizing: border-box;
+            }
+
+            .profile-card {
+                background-color: #FFFFFF;
+                border-radius: 12px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .back-link {
+                display: flex;
+                align-items: center;
+                align-self: flex-start;
+                margin-bottom: 20px;
+                color: #347474;
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 0.95em;
+            }
+
+            .back-link:hover {
+                text-decoration: underline;
+            }
+
+            .back-arrow {
+                font-size: 1.2em;
+                margin-right: 8px;
+            }
+
+            .large-profile-image {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background-image: url('https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC');
+                background-color: #E4AF69;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 3em;
+                font-weight: bold;
+                color: #FFFFFF;
+                margin-bottom: 15px;
+                border: 3px solid #347474;
+            }
+
+            .profile-name {
+                font-size: 1.8em;
+                color: #333333;
+                margin: 0 0 5px 0;
+                text-align: center;
+            }
+
+            .profile-subtitle {
+                font-size: 0.95em;
+                color: #777;
+                margin: 0 0 30px 0;
+                text-align: center;
+            }
+
+            .data-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                width: 100%;
+                margin-bottom: 30px;
+            }
+
+            .data-field {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .field-label {
+                font-size: 0.9em;
+                color: #555;
+                font-weight: bold;
+            }
+
+            .field-value {
+                background-color: #f5f5f5; 
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 4px;
+                font-size: 1em;
+                color: #333;
+            }
+
+            .password-hint {
+                font-size: 0.75em;
+                color: #999;
+                margin-top: -15px;
+                margin-bottom: 5px;
+                text-align: left;
+            }
+
+            .bio-section {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+
+            .bio-header {
+                font-size: 1.2em;
+                color: #333;
+                font-weight: bold;
+                border-left: 5px solid #E4AF69;
+                padding-left: 10px;
+                margin-bottom: 15px;
+            }
+
+            .bio-text {
+                background-color: #f5f5f5;
+                border: 1px solid #ddd;
+                padding: 15px;
+                border-radius: 4px;
+                color: #333;
+                line-height: 1.6;
+            }
+
+            .request-button {
+                background-color: #A97A9F;
+                color: #FFFFFF;
+                padding: 12px 30px;
+                border: none;
+                border-radius: 6px;
+                font-size: 1.1em;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .request-button:hover {
+                background-color: #946890;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <header class="header">
+                <div class="logo">MentoPro</div>
+                <nav class="nav-links">
+                    <a href="homePage.html">Home</a>
+                    <input type="text" placeholder="Search..." aria-label="Search">
+                    <a href="requestPage.html">Request List</a>
+                    <a href="mentorMenteeList.html">Mentor-Mentee List</a>
+                </nav>
+
+                <div class="profile-menu">
+                    <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                         alt="User Profile" 
+                         class="profile-picture" 
+                         onclick="toggleDropdown()">
+
+                    <div id="accountDropdown" class="dropdown-content">
+                        <a href="profilePage.html">Profile</a>
+                        <a href="index.html" class="logout">Logout</a>
+                    </div>
+                </div>
+            </header>
+
+        <main class="main-container">
+            <div class="profile-card">
+
+                <a href="homePage.html" class="back-link">
+                    <span class="back-arrow">&larr;</span> Back to Dashboard
+                </a>
+
+                <div class="large-profile-image"></div>
+
+                <h1 class="profile-name">Alif Anuar</h1>
+                <p class="profile-subtitle">Course: CSC508 | CGPA: 3.85</p>
+
+                <div class="data-grid">
+
+                    <div class="data-field">
+                        <label class="field-label">Full Name</label>
+                        <div class="field-value">Alif Anuar</div>
+                    </div>
+
+                    <div class="data-field">
+                        <label class="field-label">Password</label>
+                        <div class="field-value">**********</div>
+                    </div>
+
+                    <div class="data-field">
+                        <label class="field-label">Course Code</label>
+                        <div class="field-value">CSC508</div>
+                    </div>
+
+                    <div class="data-field">
+                        <label class="field-label">Current CGPA</label>
+                        <div class="field-value">3.85</div>
+                    </div>
+
+                    <div class="data-field" style="grid-column: span 2;">
+                        <label class="field-label">Favourite Subject</label>
+                        <div class="field-value">CSC584</div>
+                    </div>
+
+                </div>
+
+                <div class="bio-section">
+                    <h2 class="bio-header">A Little Bit About Me</h2>
+                    <div class="bio-text">
+                        A fourth-year student specializing in Computer Science, focusing on data structures and machine learning.
+                        I enjoy helping junior students understand complex concepts and achieve their academic goals.
+                        My mentorship style is patient and collaborative.
+                    </div>
+                </div>
+                <button class="request-button" type="button" onclick="console.log('Request button clicked!')">
+                    Request Mentor
+                </button>
+
+            </div>
+        </main>
+        <script>
+            function toggleDropdown() {
+                const dropdown = document.getElementById('accountDropdown');
+                if (dropdown.style.display === 'block') {
+                    dropdown.style.display = 'none';
+                } else {
+                    dropdown.style.display = 'block';
+                }
+            }
+
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('accountDropdown');
+                const profilePicture = document.querySelector('.profile-picture');
+
+                if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        </script>
+
+    </body>
+</html>

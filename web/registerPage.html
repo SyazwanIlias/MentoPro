@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register for Program</title>
+    <style>
+        body {
+            background-color: #347474; 
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #FFFFFF;
+            font-size: 2.5em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .register-card {
+            background-color: #FFFFFF;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .profile-upload {
+            border: 2px dashed #EAEAEA;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-upload p {
+            margin: 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        .profile-icon {
+            display: inline-block;
+            margin: 10px 0;
+            width: 50px;
+            height: 50px;
+        }
+        
+        .form-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            flex-grow: 1;
+            min-width: calc(50% - 10px);
+            margin-bottom: 10px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1em;
+            resize: vertical;
+        }
+        
+        .form-group textarea {
+            min-height: 80px;
+        }
+
+        .full-width {
+            min-width: 100%;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .button-container button {
+            flex-grow: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background-color 0.2s;
+        }
+
+        #mentorBtn {
+            background-color: #A55734; 
+            color: #FFFFFF;
+        }
+
+        #mentorBtn:hover {
+            background-color: #8C472A;
+        }
+
+        #menteeBtn {
+            background-color: #EAEAEA;
+            color: #333;
+        }
+
+        #menteeBtn:hover {
+            background-color: #DCDCDC;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        
+        .login-link a {
+            color: #A55734;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Register for the Program</h1>
+
+    <div class="register-card">
+        
+        <div class="profile-upload">
+            <input type="file" id="profilePic" accept="image/png, image/jpeg, image/gif" style="display: none;">
+            <label for="profilePic" style="cursor: pointer;">
+                <p style="font-weight: bold; color: #333;">Profile Picture (Click to Upload)</p>
+                <p>PNG, JPG, or GIF (Max 1MB)</p>
+                <svg class="profile-icon" viewBox="0 0 24 24" fill="none" stroke="#777777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </label>
+        </div>
+
+        <form id="registerForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Full Name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Choose a password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="courseCode">Course Code</label>
+                    <input type="text" id="courseCode" placeholder="Enter your course code (e.g., CS22)" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cgpa">CGPA</label>
+                    <input type="text" id="cgpa" placeholder="e.g., 3.50" required>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="subjectCode">Favourite Subject Code</label>
+                    <input type="text" id="subjectCode" placeholder="Enter your favourite subject code (e.g., MATH101)" required>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="aboutMe">A Little Bit About Me</label>
+                    <textarea id="aboutMe" placeholder="Tell us about your interests, goals, and why you joined the program..." required></textarea>
+                </div>
+            </div>
+
+            <p id="message" style="color: red; text-align: center; margin-top: 15px;"></p>
+
+            <div class="button-container">
+                <button type="submit" id="mentorBtn">Register as Mentor</button>
+                <button type="submit" id="menteeBtn">Register as Mentee</button>
+            </div>
+        </form>
+        
+        <div class="login-link">
+            Already have an account? <a href="index.html">Go back to Login</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('registerForm');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const requiredInputs = Array.from(form.querySelectorAll('input[required], textarea[required]'));
+            let isFormValid = true;
+
+            requiredInputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    isFormValid = false;
+                    input.style.border = '2px solid red';
+                } else {
+                    input.style.border = '1px solid #ccc'; 
+                }
+            });
+
+            if (isFormValid) {
+                message.style.color = 'green';
+                message.textContent = 'Registration successful! Returning to Login Page...';
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html'; 
+                }, 1000); 
+            } else {
+                message.style.color = 'red';
+                message.textContent = 'Please fill out all required fields before registering.';
+            }
+        });
+    </script>
+</body>
+</html>

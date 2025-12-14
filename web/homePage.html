@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MentoPro Dashboard</title>
+        <style>
+            body {
+                background-color: #E9E3D9; 
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            .header {
+                background-color: #347474;
+                color: #FFFFFF;
+                padding: 15px 40px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                position: relative; 
+            }
+
+            .logo {
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+
+            .nav-links {
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-links a, .nav-links input[type="text"] {
+                color: #FFFFFF;
+                text-decoration: none;
+                margin-left: 25px;
+                font-size: 1em;
+                padding: 5px 0;
+                transition: color 0.2s;
+            }
+
+            .nav-links a:hover {
+                color: #E4AF69;
+            }
+
+            .nav-links input[type="text"] {
+                border: 1px solid #629999; 
+                background-color: transparent;
+                padding: 5px 10px;
+                border-radius: 4px;
+                width: 150px;
+                box-sizing: border-box;
+            }
+
+            .nav-links input[type="text"]::placeholder {
+                color: #EAEAEA;
+                opacity: 0.7;
+            }
+
+            .profile-menu {
+                position: relative;
+            }
+
+            .profile-picture {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: #FFFFFF; 
+                cursor: pointer;
+                border: 2px solid #FFFFFF;
+                display: block; 
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                top: 50px; 
+                right: 0;
+                background-color: #FFFFFF;
+                border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                min-width: 120px;
+                z-index: 10;
+                padding: 10px 0;
+            }
+
+            .dropdown-content a {
+                color: #333333;
+                padding: 10px 15px;
+                text-decoration: none;
+                display: block;
+                font-size: 0.9em;
+                transition: background-color 0.1s;
+            }
+
+            .dropdown-content a.logout {
+                color: #C32F27; 
+            }
+
+            .dropdown-content a:hover {
+                background-color: #F0F0F0;
+            }
+
+            .main-container {
+                flex-grow: 1;
+                padding: 40px;
+                max-width: 1200px;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            .welcome-card {
+                background-color: #FFFFFF;
+                padding: 30px;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                margin-bottom: 40px;
+            }
+
+            .welcome-card h2 {
+                color: #333333;
+                margin: 0 0 10px 0;
+                font-size: 1.8em;
+                font-weight: bold;
+            }
+
+            .welcome-card p {
+                color: #555;
+                line-height: 1.6;
+            }
+
+            h2.section-title {
+                color: #347474;
+                font-size: 1.8em;
+                font-weight: bold;
+                margin-bottom: 25px;
+            }
+
+            .mentor-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr); 
+                gap: 20px;
+            }
+
+            .mentor-card {
+                background-color: #FFFFFF;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+
+            .mentor-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            .mentor-avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-right: 15px;
+                object-fit: cover;
+                background-color: #347474;
+                border: 2px solid #E4AF69;
+            }
+
+            .mentor-info h3 {
+                margin: 0 0 5px 0;
+                font-size: 1.1em;
+                color: #333333;
+            }
+
+            .mentor-info p {
+                margin: 2px 0;
+                font-size: 0.85em;
+                color: #777;
+            }
+        </style>
+    </head>
+    <body>
+
+        <header class="header">
+            <div class="logo">MentoPro</div>
+            <nav class="nav-links">
+                <a href="homePage.html">Home</a>
+                <input type="text" placeholder="Search..." aria-label="Search">
+                <a href="requestPage.html">Request List</a>
+                <a href="mentorMenteeList.html">Mentor-Mentee List</a>
+            </nav>
+
+            <div class="profile-menu">
+                <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                     alt="User Profile" 
+                     class="profile-picture" 
+                     onclick="toggleDropdown()">
+
+                <div id="accountDropdown" class="dropdown-content">
+                    <a href="profilePage.html">Profile</a>
+                    <a href="index.html" class="logout">Logout</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-container">
+
+            <div class="welcome-card">
+                <h2>MentoPro: Your Path to Success</h2>
+                <p>Welcome! This dashboard connects you with experienced peers who are ready to offer guidance and support across various courses and academic challenges. Find a mentor who can help elevate your grades and your knowledge. Click on any mentor card to view their full profile and send a mentorship request.</p>
+            </div>
+
+            <h2 class="section-title">Available Mentors</h2>
+
+            <div class="mentor-grid">
+                <div class="mentor-card" onclick="window.location.href='mentorProfilePage.html'">
+                    <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                         alt="Mentor Avatar" 
+                         class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Aliff</h3>
+                        <p>Course: CSC508</p>
+                        <p>CGPA: 3.85</p>
+                    </div>
+                </div>
+
+                <div class="mentor-card" onclick="window.location.href='mentorProfilePage.html'">
+                    <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                         alt="Mentor Avatar" 
+                         class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Maria Halim</h3>
+                        <p>Course: CSC584</p>
+                        <p>CGPA: 3.92</p>
+                    </div>
+                </div>
+
+                <div class="mentor-card" onclick="window.location.href='mentorProfilePage.html'">
+                    <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                         alt="Mentor Avatar" 
+                         class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Mat Hali Jasuli</h3>
+                        <p>Course: CTU554</p>
+                        <p>CGPA: 3.71</p>
+                    </div>
+                </div>
+
+                <div class="mentor-card" onclick="window.location.href='mentorProfilePage.html'">
+                    <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                         alt="Mentor Avatar" 
+                         class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Aniq Decaprio</h3>
+                        <p>Course: CSC541</p>
+                        <p>CGPA: 3.99</p>
+                    </div>
+                </div>
+
+                <div class="mentor-card" onclick="window.location.href='mentorProfilePage.html'">
+                    <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                         alt="Mentor Avatar" 
+                         class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Anas Suhaimi</h3>
+                        <p>Course: TJC401</p>
+                        <p>CGPA: 3.75</p>
+                    </div>
+                </div>
+
+                <div class="mentor-card" onclick="window.location.href='mentorProfilePage.html'">
+                    <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                         alt="Mentor Avatar" 
+                         class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Mat Wea</h3>
+                        <p>Course: CSC555</p>
+                        <p>CGPA: 3.80</p>
+                    </div>
+                </div>
+
+                <div class="mentor-card" onclick="window.location.href='mentorProfilePage.html'">
+                    <img src="https://placehold.co/100x100/A97A9F/FFFFFF?text=PIC" 
+                         alt="Mentor Avatar" 
+                         class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Kaneki Niel</h3>
+                        <p>Course: LCC500</p>
+                        <p>CGPA: 3.90</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <script>
+            function toggleDropdown() {
+                const dropdown = document.getElementById('accountDropdown');
+                if (dropdown.style.display === 'block') {
+                    dropdown.style.display = 'none';
+                } else {
+                    dropdown.style.display = 'block';
+                }
+            }
+
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('accountDropdown');
+                const profilePicture = document.querySelector('.profile-picture');
+
+                if (!profilePicture.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        </script>
+    </body>
+</html>
